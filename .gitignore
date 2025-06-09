@@ -1,0 +1,51 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# NetBeans specific files
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+nbproject/Makefile-*
+.nb-gradle/
+.netbeans/
+
+# Maven output
+target/
+
+# Gradle output
+.gradle/
+build/
+
+# Eclipse files (caso alguém use o Eclipse também)
+.project
+.classpath
+.c9/
+.settings/
+
+# IntelliJ IDEA files (caso outro dev use)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+

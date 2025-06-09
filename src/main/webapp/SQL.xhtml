@@ -1,0 +1,31 @@
+<!-- comment 
+CREATE TABLE author (
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    birth_year DATE,
+    nationality VARCHAR(255)
+);
+
+CREATE TABLE book (
+    id INT PRIMARY KEY,
+    title VARCHAR(255),
+    release_year DATE,
+    genre VARCHAR(100),
+    due_date DATE,
+    author_id INT,
+    FOREIGN KEY (author_id) REFERENCES author(id)
+);
+
+CREATE TABLE librarian (
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    password VARCHAR(255)
+);
+
+CREATE TABLE app_user (
+    id INT PRIMARY KEY,
+    username VARCHAR(255),
+    email VARCHAR(255),
+    password VARCHAR(255)
+);
+-->

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Library Management</title>
+</h:head>
+
+<h:body>
+    <h:form id="libraryForm">
+
+        <p:growl id="messages" showDetail="true" />
+
+        <!-- === BOOK REGISTRATION === -->
+        <p:fieldset legend="Register New Book" toggleable="true" toggleSpeed="500">
+            <h:panelGrid columns="2" cellpadding="5">
+
+                <p:outputLabel for="title" value="Title:" />
+                <p:inputText id="title" value="#{bookController.book.title}" required="true" />
+
+                <p:outputLabel for="genre" value="Genre:" />
+                <p:inputText id="genre" value="#{bookController.book.genre}" required="true" />
+
+                <p:outputLabel for="releaseYear" value="Release Year:" />
+                <p:calendar id="releaseYear" value="#{bookController.book.releaseYear}" pattern="yyyy" view="year" required="true" />
+
+                <p:outputLabel for="authorName" value="Author Name:" />
+                <p:inputText id="authorName" value="#{bookController.book.author.name}" required="true" />
+
+            </h:panelGrid>
+
+            <p:commandButton value="Add Book"
+                             action="#{bookController.saveBook}"
+                             update=":libraryForm:bookTable :libraryForm:messages"
+                             styleClass="p-mt-3" />
+        </p:fieldset>
+
+        <!-- === BOOK TABLE === -->
+        <p:dataTable id="bookTable" value="#{bookController.bookList}" var="b" 
+                     paginator="true" rows="5" responsiveLayout="scroll"
+                     emptyMessage="No books found.">
+
+            <p:column headerText="Title">
+                <h:outputText value="#{b.title}" />
+            </p:column>
+
+            <p:column headerText="Genre">
+                <h:outputText value="#{b.genre}" />
+            </p:column>
+
+            <p:column headerText="Release Year">
+                <h:outputText value="#{b.releaseYear}">
+                    <f:convertDateTime pattern="yyyy" />
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Author">
+                <h:outputText value="#{b.author.name}" />
+            </p:column>
+
+        </p:dataTable>
+
+        <br/>
+
+        <!-- === AUTHOR REGISTRATION === -->
+        <p:fieldset legend="Register New Author" toggleable="true" toggleSpeed="500">
+            <h:panelGrid columns="2" cellpadding="5">
+
+                <p:outputLabel for="name" value="Name:" />
+                <p:inputText id="name" value="#{authorController.author.name}" required="true" />
+
+                <p:outputLabel for="birthYear" value="Birth Year:" />
+                <p:calendar id="birthYear" value="#{authorController.author.birthYear}" pattern="yyyy" view="year" required="true" />
+
+                <p:outputLabel for="nationality" value="Nationality:" />
+                <p:inputText id="nationality" value="#{authorController.author.nationality}" required="true" />
+
+            </h:panelGrid>
+
+            <p:commandButton value="Add Author"
+                             action="#{authorController.saveAuthor}"
+                             update=":libraryForm:authorTable :libraryForm:messages"
+                             styleClass="p-mt-3" />
+        </p:fieldset>
+
+        <!-- === AUTHOR TABLE === -->
+        <p:dataTable id="authorTable" value="#{authorController.authorList}" var="a"
+                     paginator="true" rows="5" responsiveLayout="scroll"
+                     emptyMessage="No authors found.">
+
+            <p:column headerText="Name">
+                <h:outputText value="#{a.name}" />
+            </p:column>
+
+            <p:column headerText="Birth Year">
+                <h:outputText value="#{a.birthYear}">
+                    <f:convertDateTime pattern="yyyy" />
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Nationality">
+                <h:outputText value="#{a.nationality}" />
+            </p:column>
+
+        </p:dataTable>
+
+    </h:form>
+</h:body>
+</html>

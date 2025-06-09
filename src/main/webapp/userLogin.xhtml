@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>User Login</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h2>User Login</h2>
+
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel value="Email:" for="email" />
+                <p:inputText id="email" value="#{userController.email}" />
+
+                <h:outputLabel value="Password:" for="password" />
+                <p:password id="password" value="#{userController.password}" />
+            </h:panelGrid>
+
+            <p:commandButton value="Back"
+                             action="start.xhtml?faces-redirect=true"
+                             styleClass="p-mr-2" />
+            <p:commandButton value="Login"
+                             action="index.xhtml?faces-redirect=true"
+                             styleClass="p-mr-2" />
+            <p:commandButton value="Register User"
+                             action="registerUser.xhtml?redirect=true" />
+            
+        </h:form>
+    </h:body>
+</html>
