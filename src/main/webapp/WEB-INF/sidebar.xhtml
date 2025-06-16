@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <style>
+        .custom-sidebar {
+            width: 220px;
+            background-color: #112233;
+            color: white;
+            font-family: monospace;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            margin: 20px;
+        }
+
+        .ui-panelmenu .ui-panelmenu-header {
+            background-color: #112233 !important;
+            color: white !important;
+            font-weight: bold;
+            font-family: monospace;
+            border: none !important;
+        }
+
+        .ui-panelmenu .ui-panelmenu-content {
+            background-color: #0e1a2b !important;
+            border: none !important;
+        }
+
+        .ui-menuitem-link {
+            color: white !important;
+            font-family: monospace;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .ui-menuitem-link:hover {
+            background-color: #223344 !important;
+            color: #ffffff !important;
+        }
+
+        .ui-icon {
+            color: white !important;
+        }
+    </style>
+
+    <div class="custom-sidebar">
+        <p:panelMenu>
+            <p:submenu label="Navigation">
+                <p:menuitem value="Books" outcome="/index.xhtml" icon="pi pi-book" />
+                <p:menuitem value="Authors" outcome="/authorPage.xhtml" icon="pi pi-users" />
+            </p:submenu>
+        </p:panelMenu>
+    </div>
+</ui:composition>

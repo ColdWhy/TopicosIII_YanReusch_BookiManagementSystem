@@ -3,110 +3,214 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<h:head>
-    <title>Library Management</title>
-</h:head>
+    <h:head>
+        <title>Book Management</title>
+        <style>
+            body {
+                background-color: #0b1c2c;
+                color: white;
+                font-family: monospace;
+                margin: 0;
+                padding: 2rem;
+            }
 
-<h:body>
-    <h:form id="libraryForm">
+            h1, h2, h3, h4 {
+                color: #ffffff;
+                text-align: center;
+            }
 
-        <p:growl id="messages" showDetail="true" />
+            .ui-datatable {
+                background-color: #112233;
+                border-radius: 10px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+                color: white;
+            }
 
-        <!-- === BOOK REGISTRATION === -->
-        <p:fieldset legend="Register New Book" toggleable="true" toggleSpeed="500">
-            <h:panelGrid columns="2" cellpadding="5">
+            .ui-datatable thead th {
+                background-color: #1b2e4b;
+                color: #ffffff;
+                border: none;
+            }
 
-                <p:outputLabel for="title" value="Title:" />
-                <p:inputText id="title" value="#{bookController.book.title}" required="true" />
+            .ui-datatable tbody td {
+                background-color: #0e1a2b;
+                color: #ffffff;
+            }
 
-                <p:outputLabel for="genre" value="Genre:" />
-                <p:inputText id="genre" value="#{bookController.book.genre}" required="true" />
+            .ui-button {
+                background-color: #335577;
+                border: none;
+                color: white;
+                font-size: 16px;
+                padding: 0.5rem 1.5rem;
+                margin: 0.3rem;
+                border-radius: 8px;
+                transition: 0.3s;
+                font-family: monospace;
+            }
 
-                <p:outputLabel for="releaseYear" value="Release Year:" />
-                <p:calendar id="releaseYear" value="#{bookController.book.releaseYear}" pattern="yyyy" view="year" required="true" />
+            .ui-button:hover {
+                background-color: #446688;
+                transform: scale(1.05);
+            }
 
-                <p:outputLabel for="authorName" value="Author Name:" />
-                <p:inputText id="authorName" value="#{bookController.book.author.name}" required="true" />
+            .ui-dialog {
+                background-color: #112233 !important;
+                border-radius: 15px !important;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+                font-family: monospace;
+            }
 
-            </h:panelGrid>
+            .ui-dialog .ui-dialog-content {
+                background-color: #112233 !important;
+            }
 
-            <p:commandButton value="Add Book"
-                             action="#{bookController.saveBook}"
-                             update=":libraryForm:bookTable :libraryForm:messages"
-                             styleClass="p-mt-3" />
-        </p:fieldset>
+            .ui-panelgrid, .ui-inputfield, .ui-selectonemenu, .ui-calendar {
+                background-color: #1c2c3c;
+                color: white;
+                border: 1px solid #334455;
+                border-radius: 8px;
+                font-family: monospace;
+            }
 
-        <!-- === BOOK TABLE === -->
-        <p:dataTable id="bookTable" value="#{bookController.bookList}" var="b" 
-                     paginator="true" rows="5" responsiveLayout="scroll"
-                     emptyMessage="No books found.">
+            .ui-outputlabel {
+                color: white;
+                font-family: monospace;
+                margin-bottom: 5px;
+            }
 
-            <p:column headerText="Title">
-                <h:outputText value="#{b.title}" />
-            </p:column>
+        </style>
+    </h:head>
 
-            <p:column headerText="Genre">
-                <h:outputText value="#{b.genre}" />
-            </p:column>
+    <h:body>
+        <ui:include src="WEB-INF/sidebar.xhtml" />
+        <ui:param name="now" value="#{java.util.Date()}" />
 
-            <p:column headerText="Release Year">
-                <h:outputText value="#{b.releaseYear}">
-                    <f:convertDateTime pattern="yyyy" />
-                </h:outputText>
-            </p:column>
+        <h:form id="bookForm">
 
-            <p:column headerText="Author">
-                <h:outputText value="#{b.author.name}" />
-            </p:column>
+            <p:growl id="messages" showDetail="true" />
 
-        </p:dataTable>
+            <!-- === BOOK TABLE === -->
+            <p:dataTable id="bookTable" value="#{bookController.bookList}" var="b"
+                         paginator="true" rows="5" responsiveLayout="scroll"
+                         selection="#{bookController.book}" selectionMode="single"
+                         rowKey="#{b.id}" emptyMessage="No books found.">
 
-        <br/>
+                <p:ajax event="rowSelect" update=":bookForm:editButton :bookForm:deleteButton" />
 
-        <!-- === AUTHOR REGISTRATION === -->
-        <p:fieldset legend="Register New Author" toggleable="true" toggleSpeed="500">
-            <h:panelGrid columns="2" cellpadding="5">
+                <p:column headerText="Id">
+                    <h:outputText value="#{b.id}" />
+                </p:column>
 
-                <p:outputLabel for="name" value="Name:" />
-                <p:inputText id="name" value="#{authorController.author.name}" required="true" />
+                <p:column headerText="Title">
+                    <h:outputText value="#{b.title}" />
+                </p:column>
 
-                <p:outputLabel for="birthYear" value="Birth Year:" />
-                <p:calendar id="birthYear" value="#{authorController.author.birthYear}" pattern="yyyy" view="year" required="true" />
+                <p:column headerText="Release Year">
+                    <h:outputText value="#{b.releaseYear}">
+                        <f:convertDateTime pattern="yyyy" />
+                    </h:outputText>
+                </p:column>
 
-                <p:outputLabel for="nationality" value="Nationality:" />
-                <p:inputText id="nationality" value="#{authorController.author.nationality}" required="true" />
+                <p:column headerText="Genre">
+                    <h:outputText value="#{b.genre}" />
+                </p:column>
 
-            </h:panelGrid>
+                <p:column headerText="Due Date">
+                    <h:panelGroup>
+                        <h:outputText value="Available"
+                                      rendered="#{b.dueDate == null}"
+                                      style="color:green; font-weight:bold;" />
 
-            <p:commandButton value="Add Author"
-                             action="#{authorController.saveAuthor}"
-                             update=":libraryForm:authorTable :libraryForm:messages"
-                             styleClass="p-mt-3" />
-        </p:fieldset>
+                        <h:outputText value="#{b.dueDate}"
+                                      rendered="#{b.dueDate != null}"
+                                      style="color:orange; font-weight:bold;">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </h:outputText>
+                    </h:panelGroup>
+                </p:column>
 
-        <!-- === AUTHOR TABLE === -->
-        <p:dataTable id="authorTable" value="#{authorController.authorList}" var="a"
-                     paginator="true" rows="5" responsiveLayout="scroll"
-                     emptyMessage="No authors found.">
+                <p:column headerText="Author">
+                    <h:outputText value="#{b.author.name}" />
+                </p:column>
 
-            <p:column headerText="Name">
-                <h:outputText value="#{a.name}" />
-            </p:column>
+            </p:dataTable>
 
-            <p:column headerText="Birth Year">
-                <h:outputText value="#{a.birthYear}">
-                    <f:convertDateTime pattern="yyyy" />
-                </h:outputText>
-            </p:column>
+            <!-- === CRUD Buttons === -->
+            <p:commandButton value="New Book" icon="pi pi-plus"
+                             action="#{bookController.prepareCreate}"
+                             oncomplete="PF('createDialog').show();"
+                             update="createDialog" />
 
-            <p:column headerText="Nationality">
-                <h:outputText value="#{a.nationality}" />
-            </p:column>
+            <p:commandButton id="editButton" value="Edit" icon="pi pi-pencil"
+                             oncomplete="PF('editDialog').show();"
+                             disabled="#{bookController.book == null}"
+                             update="editDialog" />
 
-        </p:dataTable>
+            <p:commandButton id="deleteButton" value="Delete" icon="pi pi-trash"
+                             action="#{bookController.delete}"
+                             update="bookTable messages"
+                             disabled="#{bookController.book == null}"
+                             onclick="if (!confirm('Are you sure you want to delete this book?'))
+                                         return false;" />
 
-    </h:form>
-</h:body>
+            <!-- === CREATE DIALOG === -->
+            <p:dialog id="createDialog" widgetVar="createDialog" header="Add New Book" modal="true" resizable="false">
+                <h:panelGrid columns="2" cellpadding="5">
+
+                    <p:outputLabel for="title" value="Title:" />
+                    <p:inputText id="title" value="#{bookController.book.title}" required="true" />
+
+                    <p:outputLabel for="releaseYear" value="Release Year:" />
+                    <p:calendar id="releaseYear" value="#{bookController.book.releaseYear}" pattern="yyyy-MM-dd" required="true" />
+
+                    <p:outputLabel for="genre" value="Genre:" />
+                    <p:inputText id="genre" value="#{bookController.book.genre}" required="true" />
+
+                    <p:outputLabel for="dueDate" value="Due Date:" />
+                    <p:calendar id="dueDate" value="#{bookController.book.dueDate}" pattern="yyyy-MM-dd" required="true" />
+
+                    <p:outputLabel for="author" value="Author:" />
+                    <p:selectOneMenu id="author" value="#{bookController.book.author}" converter="authorConverter">
+                        <f:selectItems value="#{bookController.authorList}" var="a" itemValue="#{a}" itemLabel="#{a.name}" />
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+
+                <p:commandButton value="Save" action="#{bookController.create}" update="bookTable messages"
+                                 oncomplete="PF('createDialog').hide();" />
+            </p:dialog>
+
+            <!-- === EDIT DIALOG === -->
+            <p:dialog id="editDialog" widgetVar="editDialog" header="Edit Book" modal="true" resizable="false">
+                <h:panelGrid columns="2" cellpadding="5">
+
+                    <p:outputLabel for="editTitle" value="Title:" />
+                    <p:inputText id="editTitle" value="#{bookController.book.title}" required="true" />
+
+                    <p:outputLabel for="editReleaseYear" value="Release Year:" />
+                    <p:calendar id="editReleaseYear" value="#{bookController.book.releaseYear}" pattern="yyyy-MM-dd" required="true" />
+
+                    <p:outputLabel for="editGenre" value="Genre:" />
+                    <p:inputText id="editGenre" value="#{bookController.book.genre}" required="true" />
+
+                    <p:outputLabel for="editDueDate" value="Due Date:" />
+                    <p:calendar id="editDueDate" value="#{bookController.book.dueDate}" pattern="yyyy-MM-dd" required="true" />
+
+                    <p:outputLabel for="editAuthor" value="Author:" />
+                    <p:selectOneMenu id="editAuthor" value="#{bookController.book.author}" converter="authorConverter">
+                        <f:selectItems value="#{bookController.authorList}" var="a" itemValue="#{a}" itemLabel="#{a.name}" />
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+
+                <p:commandButton value="Save Changes" action="#{bookController.update}" update="bookTable messages"
+                                 oncomplete="PF('editDialog').hide();" />
+            </p:dialog>
+
+        </h:form>
+    </h:body>
 </html>

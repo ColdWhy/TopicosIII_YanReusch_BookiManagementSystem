@@ -16,16 +16,16 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.Objects;
 
 @Entity
 @Table(name = "book")
-public class BookEntity implements Serializable{
-    
+public class BookEntity implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // or AUTO depending on your DB
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "title", length = 255)
     private String title;
@@ -44,7 +44,6 @@ public class BookEntity implements Serializable{
     @ManyToOne
     @JoinColumn(name = "author_id")
     private AuthorEntity author;
-
 
     public int getId() {
         return id;
@@ -113,8 +112,7 @@ public class BookEntity implements Serializable{
             return false;
         }
         final BookEntity other = (BookEntity) obj;
-        return this.id == other.id;
+        return Objects.equals(this.id, other.id);
     }
-    
-    
+
 }

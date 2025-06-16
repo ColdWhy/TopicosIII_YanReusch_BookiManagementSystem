@@ -1,13 +1,13 @@
 <!-- comment 
 CREATE TABLE author (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     birth_year DATE,
     nationality VARCHAR(255)
 );
 
 CREATE TABLE book (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     title VARCHAR(255),
     release_year DATE,
     genre VARCHAR(100),
@@ -23,9 +23,51 @@ CREATE TABLE librarian (
 );
 
 CREATE TABLE app_user (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     username VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255)
 );
+
+
+
+INSERT INTO author (id, name, birth_year, nationality) VALUES
+(1999, 'J.K. Rowling', '1965-07-31', 'British'),
+(2999, 'George R.R. Martin', '1948-09-20', 'American'),
+(3999, 'Jane Austen', '1775-12-16', 'British'),
+(4999, 'Haruki Murakami', '1949-01-12', 'Japanese'),
+(5999, 'Agatha Christie', '1890-09-15', 'British'),
+(6999, 'Stephen King', '1947-09-21', 'American'),
+(7999, 'Gabriel García Márquez', '1927-03-06', 'Colombian'),
+(8999, 'Toni Morrison', '1931-02-18', 'American'),
+(9999, 'Ernest Hemingway', '1899-07-21', 'American'),
+(10999, 'Leo Tolstoy', '1828-09-09', 'Russian');
+
+INSERT INTO book (id, title, release_year, genre, due_date, author_id) VALUES
+(1999, 'Harry Potter and the Philosopher''s Stone', '1997-06-26', 'Fantasy', NULL, 1999),
+(2999, 'Harry Potter and the Chamber of Secrets', '1998-07-02', 'Fantasy', '2025-11-15', 1999),
+(3999, 'A Game of Thrones', '1996-08-01', 'Fantasy', NULL, 2999),
+(4999, 'Pride and Prejudice', '1813-01-28', 'Romance', '2026-11-20', 3999),
+(5999, 'Norwegian Wood', '1987-09-04', 'Literary Fiction', NULL, 4999),
+(6999, 'Murder on the Orient Express', '1934-01-01', 'Mystery', NULL, 5999),
+(7999, 'The Shining', '1977-01-28', 'Horror', '2023-12-01', 6999),
+(8999, 'One Hundred Years of Solitude', '1967-05-30', 'Magical Realism', NULL, 7999),
+(9999, 'Beloved', '1987-09-02', 'Historical Fiction', NULL, 8999),
+(10999, 'The Old Man and the Sea', '1952-09-01', 'Literary Fiction', '2025-11-30', 9999),
+(11999, 'War and Peace', '1869-01-01', 'Historical Fiction', NULL, 10999),
+(12999, 'Harry Potter and the Prisoner of Azkaban', '1999-07-08', 'Fantasy', NULL, 1999),
+(13999, 'The Stand', '1978-09-01', 'Horror', NULL, 6999),
+(14999, 'And Then There Were None', '1939-11-06', 'Mystery', '2026-11-25', 5999),
+(15999, 'Anna Karenina', '1877-01-01', 'Literary Fiction', NULL, 10999);
+
+INSERT INTO librarian (id, name, password) VALUES
+(1000, 'Larry', 'larry123');
+
+INSERT INTO app_user (id, username, email, password) VALUES
+(1000, 'Larry', 'larry@gmail.com', 'larry123');
+
+
+
+
+TRUNCATE TABLE book, author;
 -->

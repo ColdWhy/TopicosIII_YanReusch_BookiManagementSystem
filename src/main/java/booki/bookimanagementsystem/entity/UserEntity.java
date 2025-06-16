@@ -14,13 +14,13 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "app_user")
-public class UserEntity implements Serializable{
-    
+public class UserEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
-    
+    private Integer id;
+
     @Column(name = "username", length = 255)
     private String username;
 
@@ -29,7 +29,6 @@ public class UserEntity implements Serializable{
 
     @Column(name = "password", length = 255)
     private String password;
-
 
     public int getId() {
         return id;
@@ -84,6 +83,5 @@ public class UserEntity implements Serializable{
         final UserEntity other = (UserEntity) obj;
         return this.id == other.id;
     }
-    
-    
+
 }

@@ -3,30 +3,100 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Register User</title>
-    </h:head>
-    <h:body>
-        <h:form>
+<h:head>
+    <title>Register User</title>
+    <style>
+        body {
+            background-color: #0b1c2c;
+            color: white;
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #112233;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 450px;
+        }
+
+        h2 {
+            color: #ffffff;
+            margin-bottom: 2rem;
+        }
+
+        .ui-panelgrid {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .ui-inputfield {
+            background-color: #1c2c3c;
+            color: white;
+            border: 1px solid #334455;
+        }
+
+        .ui-button {
+            background-color: #335577;
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            width: 80%;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .ui-button:hover {
+            background-color: #446688;
+            transform: scale(1.05);
+        }
+    </style>
+</h:head>
+
+<h:body>
+
+    <!-- Top-left back button -->
+    <h:form style="position: absolute; top: 20px; left: 20px;">
+        <p:commandButton value="← Back"
+                         action="userLogin.xhtml?faces-redirect=true"
+                         style="background: none; border: none; color: #cccccc; font-size: 16px; font-family: monospace;"
+                         onmouseover="this.style.color='#ffffff'"
+                         onmouseout="this.style.color='#cccccc'" />
+    </h:form>
+
+    <!-- Main register form -->
+    <h:form>
+        <div class="container">
             <h2>Register New User</h2>
 
+            <p:growl id="messages" showDetail="true" />
+
             <h:panelGrid columns="2" cellpadding="5">
+
                 <h:outputLabel value="Username:" for="username" />
-                <p:inputText id="username" value="#{userController.user.username}" />
+                <p:inputText id="username" value="#{userController.user.username}" required="true"/>
 
                 <h:outputLabel value="Email:" for="email" />
-                <p:inputText id="email" value="#{userController.user.email}" />
+                <p:inputText id="email" value="#{userController.user.email}" required="true"/>
 
                 <h:outputLabel value="Password:" for="password" />
-                <p:password id="password" value="#{userController.user.password}" />
+                <p:password id="password" value="#{userController.user.password}" required="true"/>
             </h:panelGrid>
-            
 
-            <p:commandButton value="Back to Login"
-                             action="userLogin.xhtml?faces-redirect=true"
-                             styleClass="p-mr-2" />
             <p:commandButton value="Register"
-                             action="userLogin.xhtml?faces-redirect=true" />
-        </h:form>
-    </h:body>
+                             action="#{userController.register}"
+                             update="messages" />
+        </div>
+    </h:form>
+
+</h:body>
 </html>

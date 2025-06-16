@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class AbstractFacade<T> {
 
-    private Class<T> entityClass;
+    private final Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -27,7 +27,7 @@ public abstract class AbstractFacade<T> {
 
     public T createReturn(T entity) {
         getEntityManager().persist(entity);
-        getEntityManager().merge(entity);
+        // getEntityManager().merge(entity);
         return entity;
     }
 
@@ -37,6 +37,7 @@ public abstract class AbstractFacade<T> {
 
     public T editReturn(T entity) {
         return getEntityManager().merge(entity);
+
     }
 
     public void remove(T entity) {
@@ -49,14 +50,14 @@ public abstract class AbstractFacade<T> {
 
     public List<T> findAll() {
         jakarta.persistence.criteria.CriteriaQuery cq = getEntityManager()
-            .getCriteriaBuilder().createQuery();
+                .getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
     public List<T> findRange(int[] range) {
         jakarta.persistence.criteria.CriteriaQuery cq = getEntityManager()
-            .getCriteriaBuilder().createQuery();
+                .getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         jakarta.persistence.Query q = getEntityManager().createQuery(cq);
         q.setMaxResults(range[1] - range[0]);
@@ -66,7 +67,7 @@ public abstract class AbstractFacade<T> {
 
     public int count() {
         jakarta.persistence.criteria.CriteriaQuery cq = getEntityManager()
-            .getCriteriaBuilder().createQuery();
+                .getCriteriaBuilder().createQuery();
         jakarta.persistence.criteria.Root<T> rt = cq.from(entityClass);
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
         jakarta.persistence.Query q = getEntityManager().createQuery(cq);

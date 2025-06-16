@@ -14,6 +14,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -21,13 +22,13 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "author")
-public class AuthorEntity implements Serializable{
-    
+public class AuthorEntity implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // or AUTO depending on your DB setup
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")
-    private int id;
-    
+    private Integer id;
+
     @Column(name = "name", length = 255)
     private String name;
 
@@ -36,6 +37,7 @@ public class AuthorEntity implements Serializable{
     private Date birthYear;
 
     @Column(name = "nationality", length = 255)
+
     private String nationality;
 
     public int getId() {
@@ -89,8 +91,7 @@ public class AuthorEntity implements Serializable{
             return false;
         }
         final AuthorEntity other = (AuthorEntity) obj;
-        return this.id == other.id;
+        return Objects.equals(this.id, other.id);
     }
-    
-    
+
 }

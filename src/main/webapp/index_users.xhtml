@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>Book Management</title>
+        <style>
+    body {
+        background-color: #0b1c2c;
+        color: white;
+        font-family: monospace;
+        margin: 0;
+        padding: 2rem;
+    }
+
+    h1, h2, h3, h4 {
+        color: #ffffff;
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ui-datatable, .ui-panelgrid {
+        width: 100%;
+        background-color: #112233;
+        color: white;
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+    .ui-datatable thead th {
+        background-color: #1b2e4b;
+        color: #ffffff;
+    }
+
+    .ui-datatable tbody td {
+        background-color: #0e1a2b;
+        color: #ffffff;
+    }
+
+    .ui-inputfield, .ui-selectonemenu {
+        background-color: #1c2c3c;
+        color: white;
+        border: 1px solid #334455;
+    }
+
+    .ui-button {
+        background-color: #335577;
+        border: none;
+        color: white;
+    }
+
+    .ui-button:hover {
+        background-color: #446688;
+    }
+
+    .ui-dialog {
+        background-color: #112233;
+        border-radius: 12px;
+    }
+
+    .ui-outputlabel {
+        color: white;
+    }
+</style>
+
+    </h:head>
+
+    <h:body>
+        <ui:include src="WEB-INF/sidebar_users.xhtml" />
+
+        <h:form id="bookForm">
+
+            <p:growl id="messages" showDetail="true" />
+
+            <!-- === BOOK TABLE === -->
+            <p:dataTable id="bookTable" value="#{bookController.bookList}" var="b"
+                         paginator="true" responsiveLayout="scroll"
+                         selection="#{bookController.book}" selectionMode="single"
+                         rowKey="#{b.id}" emptyMessage="No books found.">
+
+                <p:ajax event="rowSelect" update=":bookForm:editButton :bookForm:deleteButton" />
+
+                <p:column headerText="Title">
+                    <h:outputText value="#{b.title}" />
+                </p:column>
+
+                <p:column headerText="Release Year">
+                    <h:outputText value="#{b.releaseYear}">
+                        <f:convertDateTime pattern="yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Genre">
+                    <h:outputText value="#{b.genre}" />
+                </p:column>
+
+                <p:column headerText="Due Date">
+                    <h:panelGroup>
+                        <!-- Available -->
+                        <h:outputText value="Available"
+                                      rendered="#{b.dueDate == null}"
+                                      style="color:green; font-weight:bold;" />
+
+                        <!-- Due Date -->
+                        <h:outputText value="#{b.dueDate}"
+                                      rendered="#{b.dueDate != null}"
+                                      style="color:orange; font-weight:bold;">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </h:outputText>
+                    </h:panelGroup>
+                </p:column>
+
+                <p:column headerText="Author">
+                    <h:outputText value="#{b.author.name}" />
+                </p:column>
+
+                <p:column headerText="Author">
+                    <h:outputText value="#{b.author.name}" />
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+    </h:body>
+</html>

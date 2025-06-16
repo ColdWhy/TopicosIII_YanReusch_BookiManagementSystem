@@ -4,6 +4,12 @@
  */
 package booki.bookimanagementsystem.entity;
 
+import java.io.Serializable;
+
+/**
+ *
+ * @author 199762
+ */
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +26,7 @@ public class LibrarianEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    
+
     @Column(name = "name", length = 255)
     private String name;
 
@@ -72,6 +78,5 @@ public class LibrarianEntity implements Serializable {
         final LibrarianEntity other = (LibrarianEntity) obj;
         return this.id == other.id;
     }
-    
-    
+
 }
