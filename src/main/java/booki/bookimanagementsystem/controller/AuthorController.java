@@ -2,23 +2,77 @@ package booki.bookimanagementsystem.controller;
 
 import booki.bookimanagementsystem.entity.AuthorEntity;
 import booki.bookimanagementsystem.facade.AuthorFacade;
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
-import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-
+import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
-@Named(value = "authorController")
+@Named("authorController")
 @SessionScoped
 public class AuthorController implements Serializable {
 
-    @EJB
-    private AuthorFacade ejbFacade;
+    private String name;
+    private Integer birth_year;
+    private String nationality;
 
-    private AuthorEntity selectedAuthor;
+    @EJB
+    private AuthorFacade authorFacade;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getBirth_year() {
+        return birth_year;
+    }
+
+    public void setBirth_year(Integer birth_year) {
+        this.birth_year = birth_year;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    private List<AuthorEntity> authorList;
+
+    @PostConstruct
+    public void init() {
+        authorList = authorFacade.findAll();
+    }
+
+    public List<AuthorEntity> getAuthorList() {
+        return authorList;
+    }
+
+    public String saveAuthor() {
+        AuthorEntity newAuthor = new AuthorEntity();
+        newAuthor.setName(name);
+        newAuthor.setBirth_year(birth_year);
+        newAuthor.setNationality(nationality);
+
+        authorFacade.create(newAuthor);
+
+        name = null;
+        birth_year = null;
+        nationality = null;
+
+        authorList = authorFacade.findAll();
+
+        return "authorPage.xhtml?faces-redirect=true";
+    }
+
+    private AuthorEntity selectedAuthor = new AuthorEntity();
 
     public AuthorEntity getSelectedAuthor() {
         return selectedAuthor;
@@ -28,75 +82,29 @@ public class AuthorController implements Serializable {
         this.selectedAuthor = selectedAuthor;
     }
 
-    public List<AuthorEntity> getAuthorList() {
-        return ejbFacade.fetchAll();
-    }
-
-    private int generateId() {
-        int id = 1;
-        if (!getAuthorList().isEmpty()) {
-            id = getAuthorList().size() + 1;
-        }
-        return id;
-    }
-
-    public void prepareCreate() {
-        selectedAuthor = new AuthorEntity();
-    }
-
-    private void showMessage() {
-        String msg = "Author added: " + selectedAuthor.getName();
-        FacesMessage fm = new FacesMessage(msg);
-        FacesContext.getCurrentInstance().addMessage(msg, fm);
-    }
-
-    public void addAuthor() {
-        try {
-            selectedAuthor.setId(generateId());
-            getAuthorList().add(selectedAuthor);
-            addSuccessMessage("Author successfully created!");
-            selectedAuthor = new AuthorEntity();
-        } catch (Exception e) {
-            addErrorMessage(e.getMessage());
+    public void loadAuthorById(Integer id) {
+        selectedAuthor = authorFacade.find(id);
+        if (selectedAuthor != null) {
+            name = selectedAuthor.getName();
+            birth_year = selectedAuthor.getBirth_year();
+            nationality = selectedAuthor.getNationality();
         }
     }
 
-    public void create() {
-        generateId();
-        try {
-            ejbFacade.createReturn(selectedAuthor);
-            addSuccessMessage("Author successfully created!");
-        } catch (Exception e) {
-            addErrorMessage(e.getMessage());
-        }
+    public String updateAuthor() {
+        selectedAuthor.setName(name);
+        selectedAuthor.setBirth_year(birth_year);
+        selectedAuthor.setNationality(nationality);
+
+        authorFacade.edit(selectedAuthor);
+        authorList = authorFacade.findAll();
+        return "authorPage.xhtml?faces-redirect=true";
     }
 
-    public void update() {
-        try {
-            ejbFacade.edit(selectedAuthor);
-            addSuccessMessage("Author successfully updated!");
-        } catch (Exception e) {
-            addErrorMessage(e.getMessage());
-        }
+    public String deleteAuthor() {
+        authorFacade.remove(selectedAuthor);
+        authorList = authorFacade.findAll();
+        return "authorPage.xhtml?faces-redirect=true";
     }
 
-    public void delete() {
-        try {
-            ejbFacade.remove(selectedAuthor);
-            selectedAuthor = null;
-            addSuccessMessage("Author successfully deleted!");
-        } catch (Exception e) {
-            addErrorMessage(e.getMessage());
-        }
-    }
-
-    public static void addSuccessMessage(String msg) {
-        FacesMessage faceMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg);
-        FacesContext.getCurrentInstance().addMessage(null, faceMsg);
-    }
-
-    public static void addErrorMessage(String msg) {
-        FacesMessage faceMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
-        FacesContext.getCurrentInstance().addMessage(null, faceMsg);
-    }
 }

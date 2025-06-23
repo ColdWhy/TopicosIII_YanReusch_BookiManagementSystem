@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <title>Book Management</title>
@@ -12,205 +11,188 @@
             body {
                 background-color: #0b1c2c;
                 color: white;
-                font-family: monospace;
+                font-family: courier new;
                 margin: 0;
                 padding: 2rem;
             }
 
-            h1, h2, h3, h4 {
-                color: #ffffff;
+            h1 {
                 text-align: center;
+                margin-bottom: 2rem;
             }
 
-            .ui-datatable {
-                background-color: #112233;
-                border-radius: 10px;
-                box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+            .status-available {
+                color: rgb(113, 255, 113);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .status-overdue {
+                color: rgb(255, 57, 57);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .status-borrowed {
+                color: rgb(255, 255, 95);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .glow:hover {
+                text-shadow: 0 0 5px currentColor;
+            }
+
+            .edit-button {
+                background-color: transparent;
+                border: none;
                 color: white;
+                font-size: 18px;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            a {
+                text-decoration: none;
+            }
+
+            .top-bar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                margin-bottom: 2rem;
+                gap: 20px;
+            }
+
+            .search-input {
+                flex-grow: 1;
+            }
+
+            /* Table styling */
+            .ui-datatable {
+                background-color: #1a1a1a;
+                color: white;
+                border: none;
             }
 
             .ui-datatable thead th {
-                background-color: #1b2e4b;
-                color: #ffffff;
+                background-color: #111;
+                color: white;
                 border: none;
+                font-weight: bold;
             }
 
             .ui-datatable tbody td {
-                background-color: #0e1a2b;
-                color: #ffffff;
-            }
-
-            .ui-button {
-                background-color: #335577;
+                background-color: #1a1a1a;
+                color: white;
                 border: none;
-                color: white;
-                font-size: 16px;
-                padding: 0.5rem 1.5rem;
-                margin: 0.3rem;
-                border-radius: 8px;
-                transition: 0.3s;
-                font-family: monospace;
             }
 
-            .ui-button:hover {
-                background-color: #446688;
-                transform: scale(1.05);
+
+            .ui-datatable table {
+                border-collapse: collapse;
+                border: none;
             }
 
-            .ui-dialog {
-                background-color: #112233 !important;
-                border-radius: 15px !important;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-                font-family: monospace;
+            .ui-datatable thead th {
+                background-color: #111 !important;
+                color: white !important;
+                border: none !important;
+                font-weight: bold;
+                font-family: 'Courier New', monospace;
             }
 
-            .ui-dialog .ui-dialog-content {
-                background-color: #112233 !important;
+            .ui-datatable-scrollable-theadclone,
+            .ui-datatable-scrollable-theadclone th {
+                background-color: #111 !important;
+                color: white !important;
             }
 
-            .ui-panelgrid, .ui-inputfield, .ui-selectonemenu, .ui-calendar {
-                background-color: #1c2c3c;
-                color: white;
-                border: 1px solid #334455;
-                border-radius: 8px;
-                font-family: monospace;
+            .ui-datatable tbody tr:nth-child(even) td {
+                background-color: #1b1b1b !important;
             }
 
-            .ui-outputlabel {
-                color: white;
-                font-family: monospace;
-                margin-bottom: 5px;
+            .ui-datatable tbody tr:nth-child(odd) td {
+                background-color: #2a2a2a !important;
             }
+
 
         </style>
     </h:head>
 
     <h:body>
-        <ui:include src="WEB-INF/sidebar.xhtml" />
-        <ui:param name="now" value="#{java.util.Date()}" />
+        <h1>Books</h1>
 
         <h:form id="bookForm">
+            <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 2rem;">
+                <p:commandButton value="New Book" icon="pi pi-plus" action="addBook.xhtml?faces-redirect=true"
+                                 style="font-family: courier new; background-color: olivedrab; border: none;"
+                                 styleClass="glow"/>
 
-            <p:growl id="messages" showDetail="true" />
+                <p:commandButton value="Authors" icon="pi pi-user" action="authorPage.xhtml?faces-redirect=true"
+                                 style="font-family: courier new; background-color: gray; border: none;"
+                                 styleClass="glow"/>
 
-            <!-- === BOOK TABLE === -->
-            <p:dataTable id="bookTable" value="#{bookController.bookList}" var="b"
-                         paginator="true" rows="5" responsiveLayout="scroll"
-                         selection="#{bookController.book}" selectionMode="single"
-                         rowKey="#{b.id}" emptyMessage="No books found.">
+                <p:commandButton value="Exit" icon="pi pi-sign-out" action="start.xhtml?faces-redirect=true"
+                                 style="font-family: courier new; background-color: maroon; border: none;"
+                                 styleClass="glow"/>
 
-                <p:ajax event="rowSelect" update=":bookForm:editButton :bookForm:deleteButton" />
+                <!-- Search field -->
+                <p:inputText value="#{bookController.searchTitle}"
+                             placeholder="Search title..."
+                             style="font-family: courier new; background-color: #1c2c3c; color: white; border: 1px solid #334455; padding: 0.5rem;"
+                             styleClass="glow"/>
 
-                <p:column headerText="Id">
-                    <h:outputText value="#{b.id}" />
+                <p:commandButton value="Search"
+                                 icon="pi pi-search"
+                                 update="bookTable"
+                                 actionListener="#{bookController.filterBooksByTitle}"
+                                 style="font-family: courier new; background-color: darkslateblue; border: none;"
+                                 styleClass="glow"/>
+            </div>
+
+            <!-- Book table -->
+            <p:dataTable id="bookTable" value="#{bookController.filteredBookList}" var="book"
+                         rowIndexVar="rowIndex"
+                         responsiveLayout="scroll"
+                         styleClass="dark-table"
+                         style="font-family: courier new; border: none;">
+
+
+                <p:column headerText="Edit" width="50px">
+                    <h:link outcome="editBook.xhtml">
+                        <f:param name="id" value="#{book.id}" />
+                        <span class="edit-button glow">改 ✎</span>
+                    </h:link>
                 </p:column>
 
-                <p:column headerText="Title">
-                    <h:outputText value="#{b.title}" />
-                </p:column>
-
-                <p:column headerText="Release Year">
-                    <h:outputText value="#{b.releaseYear}">
-                        <f:convertDateTime pattern="yyyy" />
-                    </h:outputText>
+                <p:column headerText="Title" width="650px">
+                    #{book.title} (#{book.release_year})
+                    <br />
+                    <small>#{book.author}</small>
                 </p:column>
 
                 <p:column headerText="Genre">
-                    <h:outputText value="#{b.genre}" />
+                    #{book.genre}
                 </p:column>
 
-                <p:column headerText="Due Date">
-                    <h:panelGroup>
-                        <h:outputText value="Available"
-                                      rendered="#{b.dueDate == null}"
-                                      style="color:green; font-weight:bold;" />
+                <p:column headerText="Language">
+                    #{book.language}
+                </p:column>
 
-                        <h:outputText value="#{b.dueDate}"
-                                      rendered="#{b.dueDate != null}"
-                                      style="color:orange; font-weight:bold;">
-                            <f:convertDateTime pattern="yyyy-MM-dd" />
-                        </h:outputText>
+                <p:column headerText="Status">
+                    <h:panelGroup>
+                        <h:link outcome="editBook.xhtml">
+                            <f:param name="id" value="#{book.id}" />
+                            <h:outputText value="#{bookController.getStatusLabel(book)}"
+                                          styleClass="#{bookController.getStatusStyle(book)} glow" />
+                        </h:link>
+                        <br />
+                        <h:outputText value="Due date: #{book.due_date}" rendered="#{book.due_date != null}" 
+                                      style="font-size: 12px; color: gray;" />
                     </h:panelGroup>
                 </p:column>
-
-                <p:column headerText="Author">
-                    <h:outputText value="#{b.author.name}" />
-                </p:column>
-
             </p:dataTable>
-
-            <!-- === CRUD Buttons === -->
-            <p:commandButton value="New Book" icon="pi pi-plus"
-                             action="#{bookController.prepareCreate}"
-                             oncomplete="PF('createDialog').show();"
-                             update="createDialog" />
-
-            <p:commandButton id="editButton" value="Edit" icon="pi pi-pencil"
-                             oncomplete="PF('editDialog').show();"
-                             disabled="#{bookController.book == null}"
-                             update="editDialog" />
-
-            <p:commandButton id="deleteButton" value="Delete" icon="pi pi-trash"
-                             action="#{bookController.delete}"
-                             update="bookTable messages"
-                             disabled="#{bookController.book == null}"
-                             onclick="if (!confirm('Are you sure you want to delete this book?'))
-                                         return false;" />
-
-            <!-- === CREATE DIALOG === -->
-            <p:dialog id="createDialog" widgetVar="createDialog" header="Add New Book" modal="true" resizable="false">
-                <h:panelGrid columns="2" cellpadding="5">
-
-                    <p:outputLabel for="title" value="Title:" />
-                    <p:inputText id="title" value="#{bookController.book.title}" required="true" />
-
-                    <p:outputLabel for="releaseYear" value="Release Year:" />
-                    <p:calendar id="releaseYear" value="#{bookController.book.releaseYear}" pattern="yyyy-MM-dd" required="true" />
-
-                    <p:outputLabel for="genre" value="Genre:" />
-                    <p:inputText id="genre" value="#{bookController.book.genre}" required="true" />
-
-                    <p:outputLabel for="dueDate" value="Due Date:" />
-                    <p:calendar id="dueDate" value="#{bookController.book.dueDate}" pattern="yyyy-MM-dd" required="true" />
-
-                    <p:outputLabel for="author" value="Author:" />
-                    <p:selectOneMenu id="author" value="#{bookController.book.author}" converter="authorConverter">
-                        <f:selectItems value="#{bookController.authorList}" var="a" itemValue="#{a}" itemLabel="#{a.name}" />
-                    </p:selectOneMenu>
-
-                </h:panelGrid>
-
-                <p:commandButton value="Save" action="#{bookController.create}" update="bookTable messages"
-                                 oncomplete="PF('createDialog').hide();" />
-            </p:dialog>
-
-            <!-- === EDIT DIALOG === -->
-            <p:dialog id="editDialog" widgetVar="editDialog" header="Edit Book" modal="true" resizable="false">
-                <h:panelGrid columns="2" cellpadding="5">
-
-                    <p:outputLabel for="editTitle" value="Title:" />
-                    <p:inputText id="editTitle" value="#{bookController.book.title}" required="true" />
-
-                    <p:outputLabel for="editReleaseYear" value="Release Year:" />
-                    <p:calendar id="editReleaseYear" value="#{bookController.book.releaseYear}" pattern="yyyy-MM-dd" required="true" />
-
-                    <p:outputLabel for="editGenre" value="Genre:" />
-                    <p:inputText id="editGenre" value="#{bookController.book.genre}" required="true" />
-
-                    <p:outputLabel for="editDueDate" value="Due Date:" />
-                    <p:calendar id="editDueDate" value="#{bookController.book.dueDate}" pattern="yyyy-MM-dd" required="true" />
-
-                    <p:outputLabel for="editAuthor" value="Author:" />
-                    <p:selectOneMenu id="editAuthor" value="#{bookController.book.author}" converter="authorConverter">
-                        <f:selectItems value="#{bookController.authorList}" var="a" itemValue="#{a}" itemLabel="#{a.name}" />
-                    </p:selectOneMenu>
-
-                </h:panelGrid>
-
-                <p:commandButton value="Save Changes" action="#{bookController.update}" update="bookTable messages"
-                                 oncomplete="PF('editDialog').hide();" />
-            </p:dialog>
-
         </h:form>
     </h:body>
 </html>

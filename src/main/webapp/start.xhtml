@@ -4,67 +4,65 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-    <title>Start Page</title>
-    <style>
-        body {
-            background-color: #0b1c2c;
-            color: white;
-            font-family: monospace;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    <h:head>
+        <title>Start Page</title>
+        <style>
+            html, body {
+                height: 100%;
+            }
 
-        .container {
-            background-color: #112233;
-            border-radius: 15px;
-            padding: 3rem;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            width: 400px;
-        }
+            body {
+                background-color: #0b1c2c;
+                color: white;
+                font-family: courier new;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
 
-        h2 {
-            color: #ffffff;
-            margin-bottom: 2rem;
-        }
+            .center-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            
+            .glow:hover {
+                text-shadow: 0 0 5px currentColor;
+            }
 
-        .ui-button {
-            background-color: #335577;
-            border: none;
-            color: white;
-            font-size: 16px;
-            padding: 1rem 2rem;
-            margin: 0.5rem;
-            width: 80%;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
+            h2 {
+                color: #ffffff;
+                margin-bottom: 2rem;
+                font-size: 25px;
+            }
+            h1 {
+                margin-bottom: 200px;
+                font-size: 75px;
+                
+            }
 
-        .ui-button:hover {
-            background-color: #446688;
-            transform: scale(1.05);
-        }
-    </style>
-</h:head>
 
-<h:body>
-    <h:form>
-        <div class="container">
-            <h2>Log in as:</h2>
+        </style>
+    </h:head>
 
-            <p:commandButton value="User"
-                             action="userLogin.xhtml?faces-redirect=true"
-                             styleClass="p-mr-2" />
+    <h:body>
+        <h1>Booki Library</h1>
+        <h2>Log in as:</h2>
+        <div class="center-container">
+            
+            <h:form>    
 
-            <p:commandButton value="Librarian"
-                             action="librarianLogin.xhtml?faces-redirect=true" />
+                    <p:commandButton value="User" icon="pi pi-user" action="userLogin.xhtml?faces-redirect=true" style="font-family: courier new;
+                                     background-color: gray; border: none; margin-right: 20px" class="glow"/>
+                    <p:commandButton value="Librarian" icon="pi pi-book" action="librarianLogin.xhtml?faces-redirect=true" style="font-family: courier new;
+                                     background-color: gray; border: none;" class="glow"/>
+                
+            </h:form>
         </div>
-    </h:form>
-</h:body>
+    </h:body>
 
 </html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Edit Book</title>
+
+        <style>
+            html, body {
+                height: 100%;
+            }
+
+            body {
+                background-color: #0b1c2c;
+                color: white;
+                font-family: courier new;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .center-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            h1 {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+
+            h1 {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            .status-available {
+                color: rgb(113, 255, 113);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .status-overdue {
+                color: rgb(255, 57, 57);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .status-borrowed {
+                color: rgb(255, 255, 95);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .glow:hover {
+                text-shadow: 0 0 5px currentColor;
+            }
+
+            .edit-button {
+                background-color: transparent;
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            a {
+                text-decoration: none;
+            }
+            input, select, .ui-inputfield, .ui-selectonemenu, .ui-calendar {
+                font-family: courier new;
+            }
+
+
+        </style>
+    </h:head>
+    <h:body>
+        <div class="center-container">
+            <h1>Edit Book</h1>
+
+            <f:metadata>
+                <f:viewParam name="id" value="#{bookController.selectedBook.id}" />
+                <f:event type="preRenderView" listener="#{bookController.loadBookById(bookController.selectedBook.id)}"/>
+            </f:metadata>
+
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="title" value="Title:"/>
+                    <p:inputText id="title" value="#{bookController.title}" required="true" style="font-family: courier new;"/>
+
+                    <h:outputLabel for="release_year" value="Release Year:"/>
+                    <p:inputText id="release_year" value="#{bookController.release_year}" required="true" style="font-family: courier new;"/>
+
+                    <h:outputLabel for="genre" value="Genre:"/>
+                    <p:inputText id="genre" value="#{bookController.genre}" required="true" style="font-family: courier new;"/>
+
+                    <h:outputLabel for="author" value="Author:"/>
+                    <p:selectOneMenu id="author" value="#{bookController.author}" required="true" style="font-family: courier new;">
+                        <f:selectItem itemLabel="Select Author" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{authorController.authorList}"
+                                       var="a"
+                                       itemLabel="#{a.name}"
+                                       itemValue="#{a.name}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel for="language" value="Language:"/>
+                    <p:inputText id="language" value="#{bookController.language}" required="true" style="font-family: courier new;"/>
+
+                    <h:outputLabel for="due_date" value="Due Date:"/>
+                    <p:calendar id="due_date" value="#{bookController.due_date}" pattern="yyyy-MM-dd" showButtonPanel="true"/>
+                </h:panelGrid>
+
+                <br/>
+                <p:commandButton value="Update Book" icon="pi pi-check" action="#{bookController.updateBook}" style="font-family: courier new;
+                                 background-color: olivedrab; border: none" class="glow"/>
+                <p:commandButton value="Delete Book" icon="pi pi-trash" action="#{bookController.deleteBook}" style="font-family: courier new; background-color: maroon; border: none; margin-left: 20px" class="glow" immediate="true"/>
+                <p:commandButton value="Cancel" icon="pi pi-arrow-left" action="index.xhtml?faces-redirect=true" style="font-family: courier new;
+                                 background-color: gray; border: none; margin-left: 20px" class="glow" immediate="true"/>
+            </h:form>
+        </div>
+    </h:body>
+</html>

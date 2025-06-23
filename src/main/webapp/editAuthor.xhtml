@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Edit Author</title>
+        <style>
+            html, body {
+                height: 100%;
+            }
+
+            body {
+                background-color: #0b1c2c;
+                color: white;
+                font-family: courier new;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .center-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            h1 {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            .status-available {
+                color: rgb(113, 255, 113);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .status-overdue {
+                color: rgb(255, 57, 57);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .status-borrowed {
+                color: rgb(255, 255, 95);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .glow:hover {
+                text-shadow: 0 0 5px currentColor;
+            }
+
+            .edit-button {
+                background-color: transparent;
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            a {
+                text-decoration: none;
+            }
+
+        </style>
+    </h:head>
+    <h:body>
+        <div class="center-container">
+            <h1>Edit Author</h1>
+
+            <f:metadata>
+                <f:viewParam name="id" value="#{authorController.selectedAuthor.id}" />
+                <f:event type="preRenderView" listener="#{authorController.loadAuthorById(authorController.selectedAuthor.id)}"/>
+            </f:metadata>
+
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="name" value="Name:"/>
+                    <p:inputText id="name" value="#{authorController.name}" required="true" style="font-family: courier new;"/>
+
+                    <h:outputLabel for="birth_year" value="Birth Year:"/>
+                    <p:inputText id="birth_year" value="#{authorController.birth_year}" required="true" style="font-family: courier new;"/>
+
+                    <h:outputLabel for="nationality" value="Nationality:"/>
+                    <p:inputText id="nationality" value="#{authorController.nationality}" required="true" style="font-family: courier new;"/>
+
+                </h:panelGrid>
+
+                <br/>
+                <p:commandButton value="Update Author" icon="pi pi-check" action="#{authorController.updateAuthor}" style="font-family: courier new;
+                                 background-color: olivedrab; border: none" class="glow"/>
+                <p:commandButton value="Delete Author" icon="pi pi-trash" action="#{authorController.deleteAuthor}" style="font-family: courier new; background-color: maroon; border: none; margin-left: 20px" class="glow"/>
+                <p:commandButton value="Cancel" icon="pi pi-arrow-left" action="authorPage.xhtml?faces-redirect=true" style="font-family: courier new;
+                                 background-color: gray; border: none; margin-left: 20px" class="glow" immediate="true"/>
+            </h:form>
+        </div>
+    </h:body>
+
+</html>

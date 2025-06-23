@@ -3,188 +3,147 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Author Management</title>
+        <title>Book Management</title>
         <style>
             body {
                 background-color: #0b1c2c;
                 color: white;
-                font-family: monospace;
+                font-family: courier new;
                 margin: 0;
                 padding: 2rem;
             }
 
-            h1, h2, h3, h4 {
-                color: #ffffff;
+            h1 {
                 text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            .status-available {
+                color: rgb(113, 255, 113);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .status-overdue {
+                color: rgb(255, 57, 57);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .status-borrowed {
+                color: rgb(255, 255, 95);
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .glow:hover {
+                text-shadow: 0 0 5px currentColor;
+            }
+
+            .edit-button {
+                background-color: transparent;
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            a {
+                text-decoration: none;
             }
 
             .ui-datatable {
-                background-color: #112233;
-                border-radius: 10px;
-                box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+                background-color: #1a1a1a;
                 color: white;
+                border: none;
             }
 
             .ui-datatable thead th {
-                background-color: #1b2e4b;
-                color: #ffffff;
+                background-color: #111;
+                color: white;
                 border: none;
+                font-weight: bold;
             }
 
             .ui-datatable tbody td {
-                background-color: #0e1a2b;
-                color: #ffffff;
-            }
-
-            .ui-button {
-                background-color: #335577;
+                background-color: #1a1a1a;
+                color: white;
                 border: none;
-                color: white;
-                font-size: 16px;
-                padding: 0.5rem 1.5rem;
-                margin: 0.3rem;
-                border-radius: 8px;
-                transition: 0.3s;
-                font-family: monospace;
             }
 
-            .ui-button:hover {
-                background-color: #446688;
-                transform: scale(1.05);
+
+            .ui-datatable table {
+                border-collapse: collapse;
+                border: none;
             }
 
-            .ui-dialog {
-                background-color: #112233 !important;
-                border-radius: 15px !important;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-                font-family: monospace;
+            .ui-datatable thead th {
+                background-color: #111 !important;
+                color: white !important;
+                border: none !important;
+                font-weight: bold;
+                font-family: 'Courier New', monospace;
             }
 
-            .ui-dialog .ui-dialog-content {
-                background-color: #112233 !important;
+            .ui-datatable-scrollable-theadclone,
+            .ui-datatable-scrollable-theadclone th {
+                background-color: #111 !important;
+                color: white !important;
             }
 
-            .ui-panelgrid, .ui-inputfield, .ui-selectonemenu, .ui-calendar {
-                background-color: #1c2c3c;
-                color: white;
-                border: 1px solid #334455;
-                border-radius: 8px;
-                font-family: monospace;
+            .ui-datatable tbody tr:nth-child(even) td {
+                background-color: #1b1b1b !important;
             }
 
-            .ui-outputlabel {
-                color: white;
-                font-family: monospace;
-                margin-bottom: 5px;
+            .ui-datatable tbody tr:nth-child(odd) td {
+                background-color: #2a2a2a !important;
             }
+
 
         </style>
-
     </h:head>
 
     <h:body>
-        <ui:include src="WEB-INF/sidebar.xhtml" />
+        <h1>Authors</h1>
 
-        <h:form id="authorForm">
+        <h:form id="bookForm">
+            <p:commandButton value="New Author" icon="pi pi-plus" action="addAuthor.xhtml?faces-redirect=true" style="font-family: courier new;
+                             background-color: olivedrab; border: none; margin-right: 20px" class="glow"/>
+            <p:commandButton value="Books" icon="pi pi-book" action="index.xhtml?faces-redirect=true" style="font-family: courier new;
+                             background-color: gray; border: none; margin-right: 20px" class="glow"/>
+            <p:commandButton value="Exit" icon="pi pi-sign-out" action="start.xhtml?faces-redirect=true" style="font-family: courier new;
+                             background-color: maroon; border: none" class="glow"/>
 
-            <p:growl id="messages" showDetail="true" />
+            <p:dataTable value="#{authorController.authorList}" var="author"  
+                         rowIndexVar="rowIndex" 
+                         responsiveLayout="scroll"
+                         styleClass="dark-table"
+                         style="font-family: courier new; border: none; margin-top: 40px">
 
-            <!-- === AUTHOR TABLE === -->
-            <p:dataTable id="authorTable" value="#{authorController.authorList}" var="a"
-                         paginator="true" rows="5"
-                         selection="#{authorController.selectedAuthor}" selectionMode="single"
-                         rowKey="#{a.id}" emptyMessage="No authors found.">
-
-                <p:ajax event="rowSelect" update=":authorForm:editButton :authorForm:deleteButton" />
-
-
-                <p:column headerText="Id">
-                    <h:outputText value="#{a.id}" />
+                <p:column headerText="Edit" width="50px">
+                    <h:link outcome="editAuthor.xhtml">
+                        <f:param name="id" value="#{author.id}" />
+                        <span class="edit-button glow">改 ✎</span>
+                    </h:link>
                 </p:column>
 
                 <p:column headerText="Name">
-                    <h:outputText value="#{a.name}" />
+                    #{author.name}
                 </p:column>
 
                 <p:column headerText="Birth Year">
-                    <h:outputText value="#{a.birthYear}">
-                        <f:convertDateTime pattern="yyyy" />
-                    </h:outputText>
+                    #{author.birth_year}
                 </p:column>
 
                 <p:column headerText="Nationality">
-                    <h:outputText value="#{a.nationality}" />
+                    #{author.nationality}
                 </p:column>
 
             </p:dataTable>
-
-            <!-- === CRUD Buttons === -->
-            <p:commandButton value="New Author"
-                             icon="pi pi-plus"
-                             action="#{authorController.prepareCreate}"
-                             oncomplete="PF('createDialog').show();"
-                             update="createDialog" />
-
-            <p:commandButton id="editButton" value="Edit"
-                             icon="pi pi-pencil"
-                             oncomplete="PF('editDialog').show();"
-                             disabled="#{authorController.selectedAuthor == null}"
-                             update="editDialog" />
-
-            <p:commandButton id="deleteButton" value="Delete"
-                             icon="pi pi-trash"
-                             action="#{authorController.delete}"
-                             update="authorTable messages"
-                             disabled="#{authorController.selectedAuthor == null}"
-                             onclick="if (!confirm('Are you sure you want to delete this author?'))
-                                         return false;" />
-
-            <!-- === CREATE DIALOG === -->
-            <p:dialog id="createDialog" widgetVar="createDialog" header="Add New Author" modal="true" resizable="false">
-                <form id="formCreate">
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <p:outputLabel for="name" value="Name:" />
-                        <p:inputText id="name" value="#{authorController.selectedAuthor.name}" required="true" />
-
-                        <p:outputLabel for="birthYear" value="Birth Year:" />
-                        <p:calendar id="birthYear" value="#{authorController.selectedAuthor.birthYear}" pattern="yyyy-MM-dd" required="true" />
-
-                        <p:outputLabel for="nationality" value="Nationality:" />
-                        <p:inputText id="nationality" value="#{authorController.selectedAuthor.nationality}" required="true" />
-                    </h:panelGrid>
-
-                    <p:commandButton value="Save"
-                                     action="#{authorController.create}"
-                                     update="authorTable messages"
-                                     oncomplete="PF('createDialog').hide();" />
-                </form>
-            </p:dialog>
-
-            <!-- === EDIT DIALOG === -->
-            <p:dialog id="editDialog" widgetVar="editDialog" header="Edit Author" modal="true" resizable="false">
-                <form id="formEdit">
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <p:outputLabel for="editName" value="Name:" />
-                        <p:inputText id="editName" value="#{authorController.selectedAuthor.name}" required="true" />
-
-                        <p:outputLabel for="editBirthYear" value="Birth Year:" />
-                        <p:calendar id="editBirthYear" value="#{authorController.selectedAuthor.birthYear}" pattern="yyyy-MM-dd" required="true" />
-
-                        <p:outputLabel for="editNationality" value="Nationality:" />
-                        <p:inputText id="editNationality" value="#{authorController.selectedAuthor.nationality}" required="true" />
-                    </h:panelGrid>
-
-                    <p:commandButton value="Save Changes"
-                                     action="#{authorController.update}"
-                                     update="authorTable messages"
-                                     oncomplete="PF('editDialog').hide();" />
-                </form>
-            </p:dialog>
-
         </h:form>
     </h:body>
 </html>

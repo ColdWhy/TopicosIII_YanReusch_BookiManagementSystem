@@ -1,102 +1,96 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <title>Register User</title>
-    <style>
-        body {
-            background-color: #0b1c2c;
-            color: white;
-            font-family: monospace;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    <h:head>
+        <title>Register User</title>
+        <style>
+            html, body {
+                height: 100%;
+            }
 
-        .container {
-            background-color: #112233;
-            border-radius: 15px;
-            padding: 3rem;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            width: 450px;
-        }
+            body {
+                background-color: #0b1c2c;
+                color: white;
+                font-family: courier new;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
 
-        h2 {
-            color: #ffffff;
-            margin-bottom: 2rem;
-        }
+            .center-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
 
-        .ui-panelgrid {
-            width: 100%;
-            margin-bottom: 2rem;
-        }
+            h1 {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
 
-        .ui-inputfield {
-            background-color: #1c2c3c;
-            color: white;
-            border: 1px solid #334455;
-        }
+            input, select, .ui-inputfield, .ui-selectonemenu, .ui-password {
+                font-family: courier new;
+            }
 
-        .ui-button {
-            background-color: #335577;
-            border: none;
-            color: white;
-            font-size: 16px;
-            padding: 1rem 2rem;
-            margin: 0.5rem;
-            width: 80%;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
+            .glow:hover {
+                text-shadow: 0 0 5px currentColor;
+            }
 
-        .ui-button:hover {
-            background-color: #446688;
-            transform: scale(1.05);
-        }
-    </style>
-</h:head>
+            .back-button {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
 
-<h:body>
+            .form-container {
+                background-color: #112233;
+                border-radius: 15px;
+                padding: 2rem;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+                width: 450px;
+            }
 
-    <!-- Top-left back button -->
-    <h:form style="position: absolute; top: 20px; left: 20px;">
-        <p:commandButton value="← Back"
-                         action="userLogin.xhtml?faces-redirect=true"
-                         style="background: none; border: none; color: #cccccc; font-size: 16px; font-family: monospace;"
-                         onmouseover="this.style.color='#ffffff'"
-                         onmouseout="this.style.color='#cccccc'" />
-    </h:form>
+        </style>
+    </h:head>
 
-    <!-- Main register form -->
-    <h:form>
-        <div class="container">
-            <h2>Register New User</h2>
+    <h:body>
 
-            <p:growl id="messages" showDetail="true" />
+        <div class="center-container">
+            <h1>Register New User</h1>
 
-            <h:panelGrid columns="2" cellpadding="5">
+            <h:form>
+                <p:growl id="messages" showDetail="true" />
 
-                <h:outputLabel value="Username:" for="username" />
-                <p:inputText id="username" value="#{userController.user.username}" required="true"/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="username" value="Username:"/>
+                    <p:inputText id="username" value="#{userController.user.username}" required="true" style="font-family: courier new;"/>
 
-                <h:outputLabel value="Email:" for="email" />
-                <p:inputText id="email" value="#{userController.user.email}" required="true"/>
+                    <h:outputLabel for="email" value="Email:"/>
+                    <p:inputText id="email" value="#{userController.user.email}" required="true" style="font-family: courier new;"/>
 
-                <h:outputLabel value="Password:" for="password" />
-                <p:password id="password" value="#{userController.user.password}" required="true"/>
-            </h:panelGrid>
+                    <h:outputLabel for="password" value="Password:"/>
+                    <p:password id="password" value="#{userController.user.password}" required="true" style="font-family: courier new;"/>
+                </h:panelGrid>
 
-            <p:commandButton value="Register"
-                             action="#{userController.register}"
-                             update="messages" />
+                <br/>
+
+                <p:commandButton value="Register"
+                                 icon="pi pi-user-plus"
+                                 action="#{userController.register}"
+                                 update="messages"
+                                 style="font-family: courier new; background-color: olivedrab; border: none"
+                                 styleClass="glow"/>
+
+                <p:commandButton value="← Back"
+                                 action="userLogin.xhtml?faces-redirect=true"
+                                 style="font-family: courier new; background-color: gray; border: none; margin-left: 20px"
+                                 class="glow" immediate="true"/>
+            </h:form>
         </div>
-    </h:form>
-
-</h:body>
+    </h:body>
 </html>

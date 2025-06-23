@@ -3,109 +3,137 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Author Management</title>
+        <title>Book Management</title>
         <style>
-    body {
-        background-color: #0b1c2c;
-        color: white;
-        font-family: monospace;
-        margin: 0;
-        padding: 2rem;
-    }
+            body {
+                background-color: #0b1c2c;
+                color: white;
+                font-family: courier new;
+                margin: 0;
+                padding: 2rem;
+            }
 
-    h1, h2, h3, h4 {
-        color: #ffffff;
-        text-align: center;
-    }
+            h1 {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
 
-    form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+            .status-available {
+                color: rgb(113, 255, 113);
+                font-weight: bold;
+                cursor: pointer;
+            }
 
-    .ui-datatable, .ui-panelgrid {
-        width: 100%;
-        background-color: #112233;
-        color: white;
-        border-radius: 10px;
-        padding: 1rem;
-    }
+            .status-overdue {
+                color: rgb(255, 57, 57);
+                font-weight: bold;
+                cursor: pointer;
+            }
 
-    .ui-datatable thead th {
-        background-color: #1b2e4b;
-        color: #ffffff;
-    }
+            .status-borrowed {
+                color: rgb(255, 255, 95);
+                font-weight: bold;
+                cursor: pointer;
+            }
 
-    .ui-datatable tbody td {
-        background-color: #0e1a2b;
-        color: #ffffff;
-    }
+            .glow:hover {
+                text-shadow: 0 0 5px currentColor;
+            }
 
-    .ui-inputfield, .ui-selectonemenu {
-        background-color: #1c2c3c;
-        color: white;
-        border: 1px solid #334455;
-    }
+            .edit-button {
+                background-color: transparent;
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+                text-decoration: none;
+            }
 
-    .ui-button {
-        background-color: #335577;
-        border: none;
-        color: white;
-    }
+            a {
+                text-decoration: none;
+            }
 
-    .ui-button:hover {
-        background-color: #446688;
-    }
+            .ui-datatable {
+                background-color: #1a1a1a;
+                color: white;
+                border: none;
+            }
 
-    .ui-dialog {
-        background-color: #112233;
-        border-radius: 12px;
-    }
+            .ui-datatable thead th {
+                background-color: #111;
+                color: white;
+                border: none;
+                font-weight: bold;
+            }
 
-    .ui-outputlabel {
-        color: white;
-    }
-</style>
+            .ui-datatable tbody td {
+                background-color: #1a1a1a;
+                color: white;
+                border: none;
+            }
 
+
+            .ui-datatable table {
+                border-collapse: collapse;
+                border: none;
+            }
+
+            .ui-datatable thead th {
+                background-color: #111 !important;
+                color: white !important;
+                border: none !important;
+                font-weight: bold;
+                font-family: 'Courier New', monospace;
+            }
+
+            .ui-datatable-scrollable-theadclone,
+            .ui-datatable-scrollable-theadclone th {
+                background-color: #111 !important;
+                color: white !important;
+            }
+
+            .ui-datatable tbody tr:nth-child(even) td {
+                background-color: #1b1b1b !important;
+            }
+
+            .ui-datatable tbody tr:nth-child(odd) td {
+                background-color: #2a2a2a !important;
+            }
+
+        </style>
     </h:head>
 
     <h:body>
-        <ui:include src="WEB-INF/sidebar_users.xhtml" />
+        <h1>Authors</h1>
 
-        <h:form id="authorForm">
+        <h:form id="bookForm">
+            <p:commandButton value="Books" icon="pi pi-book" action="index_users.xhtml?faces-redirect=true" style="font-family: courier new;
+                             background-color: gray; border: none; margin-right: 20px" class="glow"/>
+            <p:commandButton value="Exit" icon="pi pi-sign-out" action="start.xhtml?faces-redirect=true" style="font-family: courier new;
+                             background-color: maroon; border: none" class="glow"/>
 
-            <p:growl id="messages" showDetail="true" />
-
-            <!-- === AUTHOR TABLE === -->
-            <p:dataTable id="authorTable" value="#{authorController.authorList}" var="a"
-                         paginator="true"
-                         selection="#{authorController.selectedAuthor}" selectionMode="single"
-                         rowKey="#{a.id}" emptyMessage="No authors found.">
-
-                <p:ajax event="rowSelect" update=":authorForm:editButton :authorForm:deleteButton" />
-
+            <p:dataTable value="#{authorController.authorList}" var="author"  
+                         rowIndexVar="rowIndex" 
+                         responsiveLayout="scroll"
+                         styleClass="dark-table"
+                         style="font-family: courier new; border: none; margin-top: 40px">
 
                 <p:column headerText="Name">
-                    <h:outputText value="#{a.name}" />
+                    #{author.name}
                 </p:column>
 
                 <p:column headerText="Birth Year">
-                    <h:outputText value="#{a.birthYear}">
-                        <f:convertDateTime pattern="yyyy" />
-                    </h:outputText>
+                    #{author.birth_year}
                 </p:column>
 
                 <p:column headerText="Nationality">
-                    <h:outputText value="#{a.nationality}" />
+                    #{author.nationality}
                 </p:column>
 
             </p:dataTable>
-
         </h:form>
     </h:body>
 </html>

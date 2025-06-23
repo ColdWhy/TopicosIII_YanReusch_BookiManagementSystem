@@ -2,18 +2,18 @@
 CREATE TABLE author (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
-    birth_year DATE,
+    birth_year INTEGER,
     nationality VARCHAR(255)
 );
 
 CREATE TABLE book (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255),
-    release_year DATE,
-    genre VARCHAR(100),
+    release_year INTEGER,
+    genre VARCHAR(255),
     due_date DATE,
-    author_id INT,
-    FOREIGN KEY (author_id) REFERENCES author(id)
+    author VARCHAR(255),
+    language VARCHAR(255)
 );
 
 CREATE TABLE librarian (
@@ -31,41 +31,89 @@ CREATE TABLE app_user (
 
 
 
-INSERT INTO author (id, name, birth_year, nationality) VALUES
-(1999, 'J.K. Rowling', '1965-07-31', 'British'),
-(2999, 'George R.R. Martin', '1948-09-20', 'American'),
-(3999, 'Jane Austen', '1775-12-16', 'British'),
-(4999, 'Haruki Murakami', '1949-01-12', 'Japanese'),
-(5999, 'Agatha Christie', '1890-09-15', 'British'),
-(6999, 'Stephen King', '1947-09-21', 'American'),
-(7999, 'Gabriel García Márquez', '1927-03-06', 'Colombian'),
-(8999, 'Toni Morrison', '1931-02-18', 'American'),
-(9999, 'Ernest Hemingway', '1899-07-21', 'American'),
-(10999, 'Leo Tolstoy', '1828-09-09', 'Russian');
+INSERT INTO author (name, birth_year, nationality) VALUES
+('Ray Bradbury', 1920, 'American'),
+('Kurt Vonnegut', 1922, 'American'),
+('Philip K. Dick', 1928, 'American'),
+('Ursula K. Le Guin', 1929, 'American'),
+('Octavia E. Butler', 1947, 'American'),
+('John Steinbeck', 1902, 'American'),
+('F. Scott Fitzgerald', 1896, 'American'),
+('Mark Twain', 1835, 'American'),
+('Emily Dickinson', 1830, 'American'),
+('Sylvia Plath', 1932, 'American'),
+('C.S. Lewis', 1898, 'British'),
+('George Orwell', 1903, 'British'),
+('Virginia Woolf', 1882, 'British'),
+('Mary Shelley', 1797, 'British'),
+('Lewis Carroll', 1832, 'British'),
+('Victor Hugo', 1802, 'French'),
+('Marcel Proust', 1871, 'French'),
+('Albert Camus', 1913, 'French'),
+('Fyodor Dostoevsky', 1821, 'Russian'),
+('Anton Chekhov', 1860, 'Russian'),
+('Alexander Pushkin', 1799, 'Russian'),
+('Yukio Mishima', 1925, 'Japanese'),
+('Banana Yoshimoto', 1964, 'Japanese'),
+('Kenzaburō Ōe', 1935, 'Japanese'),
+('Mario Vargas Llosa', 1936, 'Peruvian'),
+('Isabel Allende', 1942, 'Chilean'),
+('Jorge Luis Borges', 1899, 'Argentinian'),
+('Franz Kafka', 1883, 'Austrian'),
+('Hermann Hesse', 1877, 'German'),
+('Chinua Achebe', 1930, 'Nigerian'),
+('Orhan Pamuk', 1952, 'Turkish');
 
-INSERT INTO book (id, title, release_year, genre, due_date, author_id) VALUES
-(1999, 'Harry Potter and the Philosopher''s Stone', '1997-06-26', 'Fantasy', NULL, 1999),
-(2999, 'Harry Potter and the Chamber of Secrets', '1998-07-02', 'Fantasy', '2025-11-15', 1999),
-(3999, 'A Game of Thrones', '1996-08-01', 'Fantasy', NULL, 2999),
-(4999, 'Pride and Prejudice', '1813-01-28', 'Romance', '2026-11-20', 3999),
-(5999, 'Norwegian Wood', '1987-09-04', 'Literary Fiction', NULL, 4999),
-(6999, 'Murder on the Orient Express', '1934-01-01', 'Mystery', NULL, 5999),
-(7999, 'The Shining', '1977-01-28', 'Horror', '2023-12-01', 6999),
-(8999, 'One Hundred Years of Solitude', '1967-05-30', 'Magical Realism', NULL, 7999),
-(9999, 'Beloved', '1987-09-02', 'Historical Fiction', NULL, 8999),
-(10999, 'The Old Man and the Sea', '1952-09-01', 'Literary Fiction', '2025-11-30', 9999),
-(11999, 'War and Peace', '1869-01-01', 'Historical Fiction', NULL, 10999),
-(12999, 'Harry Potter and the Prisoner of Azkaban', '1999-07-08', 'Fantasy', NULL, 1999),
-(13999, 'The Stand', '1978-09-01', 'Horror', NULL, 6999),
-(14999, 'And Then There Were None', '1939-11-06', 'Mystery', '2026-11-25', 5999),
-(15999, 'Anna Karenina', '1877-01-01', 'Literary Fiction', NULL, 10999);
+
+INSERT INTO book (title, release_year, genre, due_date, author, language) VALUES
+('Harry Potter and the Goblet of Fire', 2000, 'Fantasy', NULL, 'J.K. Rowling', 'English'),
+('Harry Potter and the Order of the Phoenix', 2003, 'Fantasy', NULL, 'J.K. Rowling', 'English'),
+('Harry Potter and the Half-Blood Prince', 2005, 'Fantasy', NULL, 'J.K. Rowling', 'English'),
+('Harry Potter and the Deathly Hallows', 2007, 'Fantasy', NULL, 'J.K. Rowling', 'English'),
+('A Clash of Kings', 1998, 'Fantasy', NULL, 'George R.R. Martin', 'English'),
+('A Storm of Swords', 2000, 'Fantasy', NULL, 'George R.R. Martin', 'English'),
+('A Feast for Crows', 2005, 'Fantasy', NULL, 'George R.R. Martin', 'English'),
+('A Dance with Dragons', 2011, 'Fantasy', NULL, 'George R.R. Martin', 'English'),
+('Sense and Sensibility', 1811, 'Romance', NULL, 'Jane Austen', 'English'),
+('Emma', 1815, 'Romance', NULL, 'Jane Austen', 'English'),
+('Mansfield Park', 1814, 'Romance', NULL, 'Jane Austen', 'English'),
+('Persuasion', 1817, 'Romance', NULL, 'Jane Austen', 'English'),
+('Kafka on the Shore', 2002, 'Magical Realism', NULL, 'Haruki Murakami', 'Japanese'),
+('1Q84', 2009, 'Science Fiction', NULL, 'Haruki Murakami', 'Japanese'),
+('The Wind-Up Bird Chronicle', 1994, 'Literary Fiction', NULL, 'Haruki Murakami', 'Japanese'),
+('Hard-Boiled Wonderland and the End of the World', 1985, 'Science Fiction', NULL, 'Haruki Murakami', 'Japanese'),
+('The Mysterious Affair at Styles', 1920, 'Mystery', NULL, 'Agatha Christie', 'English'),
+('Death on the Nile', 1937, 'Mystery', NULL, 'Agatha Christie', 'English'),
+('The A.B.C. Murders', 1936, 'Mystery', NULL, 'Agatha Christie', 'English'),
+('Curtain: Poirot’s Last Case', 1975, 'Mystery', NULL, 'Agatha Christie', 'English'),
+('It', 1986, 'Horror', NULL, 'Stephen King', 'English'),
+('Misery', 1987, 'Horror', NULL, 'Stephen King', 'English'),
+('Pet Sematary', 1983, 'Horror', NULL, 'Stephen King', 'English'),
+('Carrie', 1974, 'Horror', NULL, 'Stephen King', 'English'),
+('Love in the Time of Cholera', 1985, 'Magical Realism', NULL, 'Gabriel García Márquez', 'Spanish'),
+('Chronicle of a Death Foretold', 1981, 'Mystery', NULL, 'Gabriel García Márquez', 'Spanish'),
+('No One Writes to the Colonel', 1961, 'Literary Fiction', NULL, 'Gabriel García Márquez', 'Spanish'),
+('The Autumn of the Patriarch', 1975, 'Magical Realism', NULL, 'Gabriel García Márquez', 'Spanish'),
+('Song of Solomon', 1977, 'Literary Fiction', NULL, 'Toni Morrison', 'English'),
+('The Bluest Eye', 1970, 'Literary Fiction', NULL, 'Toni Morrison', 'English'),
+('Sula', 1973, 'Literary Fiction', NULL, 'Toni Morrison', 'English'),
+('Jazz', 1992, 'Historical Fiction', NULL, 'Toni Morrison', 'English'),
+('A Farewell to Arms', 1929, 'War Fiction', NULL, 'Ernest Hemingway', 'English'),
+('For Whom the Bell Tolls', 1940, 'War Fiction', NULL, 'Ernest Hemingway', 'English'),
+('The Sun Also Rises', 1926, 'Literary Fiction', NULL, 'Ernest Hemingway', 'English'),
+('To Have and Have Not', 1937, 'Crime Fiction', NULL, 'Ernest Hemingway', 'English'),
+('The Death of Ivan Ilyich', 1886, 'Philosophical Fiction', NULL, 'Leo Tolstoy', 'Russian'),
+('Resurrection', 1899, 'Historical Fiction', NULL, 'Leo Tolstoy', 'Russian'),
+('The Cossacks', 1863, 'Historical Fiction', NULL, 'Leo Tolstoy', 'Russian'),
+('Childhood', 1852, 'Autobiographical Fiction', NULL, 'Leo Tolstoy', 'Russian');
+
+
 
 INSERT INTO librarian (id, name, password) VALUES
 (1000, 'Larry', 'larry123');
 
 INSERT INTO app_user (id, username, email, password) VALUES
 (1000, 'Larry', 'larry@gmail.com', 'larry123');
-
 
 
 

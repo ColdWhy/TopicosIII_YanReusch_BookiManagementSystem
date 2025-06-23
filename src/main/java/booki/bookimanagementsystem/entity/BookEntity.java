@@ -9,21 +9,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "book")
 public class BookEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -31,25 +26,25 @@ public class BookEntity implements Serializable {
     private String title;
 
     @Column(name = "release_year")
-    @Temporal(TemporalType.DATE)
-    private Date releaseYear;
+    private Integer release_year;
 
-    @Column(name = "genre", length = 100)
+    @Column(name = "genre", length = 255)
     private String genre;
-
+    
     @Column(name = "due_date")
-    @Temporal(TemporalType.DATE)
-    private Date dueDate;
+    private Date due_date;
+    
+    @Column(name = "author", length = 255)
+    private String author;
+    
+    @Column(name = "language", length = 255)
+    private String language;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private AuthorEntity author;
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -61,12 +56,12 @@ public class BookEntity implements Serializable {
         this.title = title;
     }
 
-    public Date getReleaseYear() {
-        return releaseYear;
+    public Integer getRelease_year() {
+        return release_year;
     }
 
-    public void setReleaseYear(Date releaseYear) {
-        this.releaseYear = releaseYear;
+    public void setRelease_year(Integer release_year) {
+        this.release_year = release_year;
     }
 
     public String getGenre() {
@@ -77,42 +72,31 @@ public class BookEntity implements Serializable {
         this.genre = genre;
     }
 
-    public AuthorEntity getAuthor() {
+    public Date getDue_date() {
+        return due_date;
+    }
+
+    public void setDue_date(Date due_date) {
+        this.due_date = due_date;
+    }
+
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(AuthorEntity author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
-    public Date getDueDate() {
-        return dueDate;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setLanguage(String language) {
+        this.language = language;
     }
+    
+    
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + this.id;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final BookEntity other = (BookEntity) obj;
-        return Objects.equals(this.id, other.id);
-    }
 
 }

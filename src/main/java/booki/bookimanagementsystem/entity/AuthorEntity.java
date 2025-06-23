@@ -10,22 +10,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Objects;
 
-/**
- *
- * @author 199762
- */
 @Entity
 @Table(name = "author")
 public class AuthorEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -33,18 +25,16 @@ public class AuthorEntity implements Serializable {
     private String name;
 
     @Column(name = "birth_year")
-    @Temporal(TemporalType.DATE)
-    private Date birthYear;
+    private Integer birth_year;
 
     @Column(name = "nationality", length = 255)
-
     private String nationality;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -56,12 +46,12 @@ public class AuthorEntity implements Serializable {
         this.name = name;
     }
 
-    public Date getBirthYear() {
-        return birthYear;
+    public Integer getBirth_year() {
+        return birth_year;
     }
 
-    public void setBirthYear(Date birthYear) {
-        this.birthYear = birthYear;
+    public void setBirth_year(Integer birth_year) {
+        this.birth_year = birth_year;
     }
 
     public String getNationality() {
@@ -71,27 +61,5 @@ public class AuthorEntity implements Serializable {
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + this.id;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final AuthorEntity other = (AuthorEntity) obj;
-        return Objects.equals(this.id, other.id);
-    }
-
+    
 }
